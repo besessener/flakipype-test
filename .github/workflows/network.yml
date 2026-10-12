@@ -1,0 +1,27 @@
+name: Network
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: "15,45 * * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  fixtures:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Start the mirror
+        run: |
+          python3 scripts/mirror.py &
+          for _ in $(seq 50); do curl -fsS http://127.0.0.1:8765/health && exit 0; sleep 0.1; done
+          exit 1
+      - name: Download the test fixtures from the mirror
+        run: sh scripts/download-fixtures.sh
