@@ -3,7 +3,8 @@ name: Rerun once
 # Reruns the failed jobs of a case's first attempt once, as a person clicking "Re-run failed
 # jobs" would. That gives flakipype "passed on rerun" evidence for the flaky cases and
 # "still fails after a rerun" for the broken ones.
-on:
+# The watched workflows never run on pull requests, and this one checks out no code.
+on: # zizmor: ignore[dangerous-triggers]
   workflow_run:
     workflows: [Timing race, Random order, Network, Real bug, Fixed, Configuration]
     types: [completed]
