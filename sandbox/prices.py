@@ -2,4 +2,5 @@
 
 
 def total_cents(prices: list[float]) -> int:
-    return round(sum(prices) * 100)
+    # Whole cents only: a partial cent is never charged.
+    return int(sum(prices) * 100)
