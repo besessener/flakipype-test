@@ -1,4 +1,3 @@
-import time
 import unittest
 
 from sandbox.flush import Buffer
@@ -10,7 +9,7 @@ class FlushTest(unittest.TestCase):
         buffer.add("event")
 
         buffer.flush_later()
-        time.sleep(0.05)
+        buffer.flushed.wait(5)
 
         self.assertEqual(buffer.sink, ["event"])
 
